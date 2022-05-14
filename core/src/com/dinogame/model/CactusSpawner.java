@@ -5,11 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.dinogame.Config;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 //класс для генерации препятствий (кактусов) на пути динозаврика.
-public class CactusSpawner{
+public class CactusSpawner {
     //место создания кактусов
     private Vector2 spawnPosition;
     //список со спрайтами кактусов. Для разнообразия.
@@ -32,9 +31,9 @@ public class CactusSpawner{
     //создает кактусы. Вызывается каждый кадр.
     public void spawn(float gameTime) {
         if (spawnTime < gameTime) {
-            int spriteNumber = ThreadLocalRandom.current().nextInt(0,  2);
+            int spriteNumber = ThreadLocalRandom.current().nextInt(0, 2);
             cacti.add(createCactus(spriteNumber));
-            spawnTime = ThreadLocalRandom.current().nextDouble(gameTime + 0.8,gameTime + 2);
+            spawnTime = ThreadLocalRandom.current().nextDouble(gameTime + 0.8, gameTime + 2);
         }
     }
 
@@ -81,8 +80,8 @@ public class CactusSpawner{
     //удаляет все кактусы. Вызывается при рестарте игры
     private void removeAll() {
         if (!cacti.isEmpty()) {
-            for (int i = 0; i < cacti.size(); i++) {
-                cacti.get(i).dispose();
+            for (GameObject cactus : cacti) {
+                cactus.dispose();
             }
             cacti.clear();
         }

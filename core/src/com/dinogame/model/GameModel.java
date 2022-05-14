@@ -15,10 +15,6 @@ public class GameModel {
     private Scores scores;
     //текущее время с начала игры.
     private float gameTime;
-
-    private enum GameState {
-        START, STOP, RUN
-    }
     private GameState gameState;
 
     public GameModel() {
@@ -84,10 +80,10 @@ public class GameModel {
 
     //отрисовываем все текстуры
     public void draw(SpriteBatch batch) {
+        scores.draw(batch, gameTime);
         cactusSpawner.draw(batch);
         ground.draw(batch);
         hero.draw(batch, gameTime);
-        scores.draw(batch, gameTime);
         if (gameState == GameState.STOP) {
             drawRestartButton(batch);
         }
@@ -125,5 +121,9 @@ public class GameModel {
         hero.dispose();
         ground.dispose();
         scores.dispose();
+    }
+
+    private enum GameState {
+        START, STOP, RUN
     }
 }

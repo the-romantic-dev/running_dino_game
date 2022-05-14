@@ -8,18 +8,18 @@ import com.dinogame.Config;
 
 //класс создает игровые очки в углу экрана.
 public class Scores {
+    //массив, где будут храниться спрайты цифр
+    private final TextureRegion[] numbers;
+    //ширина одной цифры
+    private final int numberWidth;
+    //местоположение на экране
+    private final Vector2 position;
     //текстура со спрайтами цифр
     Texture sprite;
-    //массив, где будут храниться спрайты цифр
-    private TextureRegion[] numbers;
-    //ширина одной цифры
-    private int numberWidth;
-    //местоположение на экране
-    private Vector2 position;
 
     public Scores() {
         sprite = new Texture(Config.NUMBERS_SPRITE_NAME);
-        position = new Vector2(Config.WINDOW_WIDTH - 50, Config.WINDOW_WIDTH - 50);
+        position = new Vector2(Config.WINDOW_WIDTH - 50, Config.WINDOW_HEIGHT - 50);
         numberWidth = sprite.getWidth() / 10;
         //делим изначальную текстуру на части шириной в одну цифру и заносим из в массив
         TextureRegion[][] splitted = TextureRegion.split(sprite, numberWidth, sprite.getHeight());
@@ -33,15 +33,15 @@ public class Scores {
     public void draw(SpriteBatch batch, float gameTime) {
         int time = (int) gameTime;
         int k = 0;
-        if (time == 0) batch.draw(numbers[0], position.x , position.y);
+        if (time == 0) batch.draw(numbers[0], position.x, position.y);
         while (time > 0) {
             int num = time % 10;
-            batch.draw(numbers[num], position.x - numberWidth * k , position.y);
+            batch.draw(numbers[num], position.x - numberWidth * k, position.y);
             time /= 10;
             k++;
         }
-    }
 
+    }
 
     public void dispose() {
         sprite.dispose();
