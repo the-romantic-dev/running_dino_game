@@ -1,5 +1,10 @@
 package com.dinogame;
 
+import com.badlogic.gdx.graphics.Texture;
+import org.w3c.dom.Text;
+
+import java.awt.*;
+
 //хранит настройки игры
 public class Config {
     public static final int WINDOW_WIDTH = 800;
@@ -18,4 +23,13 @@ public class Config {
     public static final String CACTUS_2_SPRITE_NAME = "cactus_2.png";
     public static final String NUMBERS_SPRITE_NAME = "numbers.png";
     public static final String BUTTON_SPRITE_NAME = "restart_button.png";
+
+    public static final int HERO_WIDTH = 80;
+    public static final int HERO_HEIGHT = 86;
+
+    public static final int GROUND_WIDTH = 2400;
+    public static final int GROUND_HEIGHT = 24;
+
+    public static final int CACTUS_WIDTH = 50;
+    public static final int CACTUS_HEIGHT = 96;
 }

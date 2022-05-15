@@ -1,14 +1,10 @@
 package com.dinogame.model;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 //абстракция под большинство объектов в игре
 public class GameObject {
-    //у любого объекта есть текстура (изображение)
-    protected Texture sprite;
     //прямоугольник, отображающий положение текстуры на экране
     protected Rectangle spriteRectangle;
     //у любого объекта есть "коллайдер" - прямоугольник для отслеживания столкновений.
@@ -16,13 +12,18 @@ public class GameObject {
     protected Rectangle collider;
     //ускорение объекта
     protected Vector2 velocity;
-
-    public GameObject(String spriteInternalPath, float positionX, float positionY) {
-        sprite = new Texture(spriteInternalPath);
-        spriteRectangle = new Rectangle(positionX, positionY, sprite.getWidth(), sprite.getHeight());
+    public GameObject(float positionX, float positionY, float width, float height) {
+        spriteRectangle = new Rectangle(positionX, positionY, width, height);
         collider = new Rectangle(spriteRectangle);
         velocity = new Vector2(0, 0);
+    }
 
+    public Rectangle getCollider() {
+        return collider;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
     //установить коллайдер
@@ -70,13 +71,8 @@ public class GameObject {
         return this.collider.overlaps(object.collider);
     }
 
-    //функция для отрисовки на экране
-    public void draw(SpriteBatch batch) {
-        batch.draw(sprite, spriteRectangle.x, spriteRectangle.y);
+    public Rectangle getSpriteRectangle() {
+        return spriteRectangle;
     }
 
-    //функция для удаления после использования, чтобы не захламлять память.
-    public void dispose() {
-        sprite.dispose();
-    }
 }

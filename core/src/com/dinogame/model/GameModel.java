@@ -5,31 +5,50 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dinogame.Config;
+import com.dinogame.view.Scores;
 
-//представление model и controller
+//представление model
 public class GameModel {
     //игровые сущности
     private Hero hero;
     private Ground ground;
     private CactusSpawner cactusSpawner;
-    private Scores scores;
     //текущее время с начала игры.
     private float gameTime;
     private GameState gameState;
 
     public GameModel() {
-        gameTime = 0;
-        hero = new Hero(Config.HERO_SPRITE_NAME);
-        ground = new Ground(Config.GROUND_SPRITE_NAME);
+        hero = new Hero();
+        ground = new Ground();
         cactusSpawner = new CactusSpawner();
         gameState = GameState.START;
-        scores = new Scores();
+        gameTime = 0;
+    }
+
+    public Hero getHero() {
+        return hero;
+    }
+
+    public Ground getGround() {
+        return ground;
+    }
+
+    public CactusSpawner getCactusSpawner() {
+        return cactusSpawner;
+    }
+
+    public float getGameTime() {
+        return gameTime;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     //функция для управления. Т.к. игра управляется одним пробелом,
     //то нет смысла создавать отдельный класс под контроллер
-    private void checkController() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+    private void checkController(boolean isKeyPressed) {
+        if (isKeyPressed) {
             switch (gameState) {
                 case START:
                     startGame();
@@ -68,24 +87,13 @@ public class GameModel {
     }
 
     //обновляет состояние игры
-    public void update(float time) {
-        checkController();
+    public void update(float time, boolean isKeyPressed) {
+        checkController(isKeyPressed);
         if (gameState == GameState.RUN) {
             gameTime += time;
             heroUpdate();
             cactusSpawnerUpdate();
             ground.move();
-        }
-    }
-
-    //отрисовываем все текстуры
-    public void draw(SpriteBatch batch) {
-        scores.draw(batch, gameTime);
-        cactusSpawner.draw(batch);
-        ground.draw(batch);
-        hero.draw(batch, gameTime);
-        if (gameState == GameState.STOP) {
-            drawRestartButton(batch);
         }
     }
 
@@ -108,22 +116,7 @@ public class GameModel {
         hero.changePositon(Config.START_X, Config.GROUND_LEVEL);
     }
 
-    //рисует кнопку при проигрыше
-    private void drawRestartButton(SpriteBatch batch) {
-        Texture button = new Texture(Config.BUTTON_SPRITE_NAME);
-        int positonX = (Config.WINDOW_WIDTH - button.getWidth()) / 2;
-        int positonY = (Config.WINDOW_HEIGHT - button.getHeight()) / 2;
-        batch.draw(button, positonX, positonY - 50);
-    }
-
-    //очищаем память от лишних текстур.
-    public void dispose() {
-        hero.dispose();
-        ground.dispose();
-        scores.dispose();
-    }
-
-    private enum GameState {
+    public enum GameState {
         START, STOP, RUN
     }
 }

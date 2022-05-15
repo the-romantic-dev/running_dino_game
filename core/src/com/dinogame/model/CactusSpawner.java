@@ -1,6 +1,5 @@
 package com.dinogame.model;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.dinogame.Config;
 
@@ -11,21 +10,21 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CactusSpawner {
     //место создания кактусов
     private Vector2 spawnPosition;
-    //список со спрайтами кактусов. Для разнообразия.
-    private ArrayList<String> sprites;
     //список с отображаемыми на экране кактусами.
-    private ArrayList<GameObject> cacti;
+    private ArrayList<Cactus> cacti;
     //промежуток времени между кактусами. Задается рандомно после каждого создания.
     private double spawnTime;
-
+    private int counter;
 
     public CactusSpawner() {
         spawnPosition = new Vector2(Config.WINDOW_WIDTH, Config.GROUND_LEVEL);
-        sprites = new ArrayList<>();
-        sprites.add(Config.CACTUS_1_SPRITE_NAME);
-        sprites.add(Config.CACTUS_2_SPRITE_NAME);
         cacti = new ArrayList<>();
         spawnTime = 0;
+        counter = 0;
+    }
+
+    public ArrayList<Cactus> getCacti() {
+        return cacti;
     }
 
     //создает кактусы. Вызывается каждый кадр.
@@ -38,20 +37,14 @@ public class CactusSpawner {
     }
 
     //создаем объект кактуса
-    private GameObject createCactus(int spriteNumber) {
-        GameObject cactus = new GameObject(sprites.get(spriteNumber), spawnPosition.x, spawnPosition.y);
+    private Cactus createCactus(int spriteNumber) {
+        Cactus cactus = new Cactus(spawnPosition.x, spawnPosition.y, counter);
+        counter++;
         //все кактусы двигаются в направлении игрока
         cactus.setVelocity(-Config.RUN_SPEED, 0);
         //делаем поменьше коллайдер кактуса, чтобы удобнее играть было
-        cactus.setCollider(0.2f * cactus.spriteRectangle.width, 0, 0.6f * cactus.spriteRectangle.width, cactus.spriteRectangle.height);
+        cactus.setCollider(0.2f * cactus.spriteRectangle.width, 0, 0.8f * cactus.spriteRectangle.width, cactus.spriteRectangle.height);
         return cactus;
-    }
-
-    //отрисовываем все кактусы. Вызывается каждый кадр.
-    public void draw(SpriteBatch batch) {
-        for (GameObject cactus : cacti) {
-            cactus.draw(batch);
-        }
     }
 
     //двигает все кактусы. Вызывается каждый кадр.
@@ -63,8 +56,7 @@ public class CactusSpawner {
 
     //удаляет кактус, если он ушел за пределы экрана
     public void checkInvisible() {
-        if (!cacti.isEmpty() && cacti.get(0).spriteRectangle.x < -cacti.get(0).spriteRectangle.width) {
-            cacti.get(0).dispose();
+        if (!cacti.isEmpty() && cacti.get(0).spriteRectangle.x < -Config.CACTUS_WIDTH) {
             cacti.remove(0);
         }
     }
@@ -80,9 +72,6 @@ public class CactusSpawner {
     //удаляет все кактусы. Вызывается при рестарте игры
     private void removeAll() {
         if (!cacti.isEmpty()) {
-            for (GameObject cactus : cacti) {
-                cactus.dispose();
-            }
             cacti.clear();
         }
     }
@@ -91,4 +80,6 @@ public class CactusSpawner {
         removeAll();
         spawnTime = 0;
     }
+
+
 }

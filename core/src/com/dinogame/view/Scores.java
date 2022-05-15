@@ -1,4 +1,4 @@
-package com.dinogame.model;
+package com.dinogame.view;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
