@@ -9,9 +9,9 @@ import java.util.concurrent.ThreadLocalRandom;
 //класс для генерации препятствий (кактусов) на пути динозаврика.
 public class CactusSpawner {
     //место создания кактусов
-    private Vector2 spawnPosition;
+    private final Vector2 spawnPosition;
     //список с отображаемыми на экране кактусами.
-    private ArrayList<Cactus> cacti;
+    private final ArrayList<Cactus> cacti;
     //промежуток времени между кактусами. Задается рандомно после каждого создания.
     private double spawnTime;
     private int counter;
@@ -30,14 +30,13 @@ public class CactusSpawner {
     //создает кактусы. Вызывается каждый кадр.
     public void spawn(float gameTime) {
         if (spawnTime < gameTime) {
-            int spriteNumber = ThreadLocalRandom.current().nextInt(0, 2);
-            cacti.add(createCactus(spriteNumber));
+            cacti.add(createCactus());
             spawnTime = ThreadLocalRandom.current().nextDouble(gameTime + 0.8, gameTime + 2);
         }
     }
 
     //создаем объект кактуса
-    private Cactus createCactus(int spriteNumber) {
+    private Cactus createCactus() {
         Cactus cactus = new Cactus(spawnPosition.x, spawnPosition.y, counter);
         counter++;
         //все кактусы двигаются в направлении игрока

@@ -7,8 +7,8 @@ import com.dinogame.Config;
 import com.dinogame.model.Ground;
 
 public class GroundView {
-    private Ground ground;
-    private Texture sprite;
+    private final Ground ground;
+    private final Texture sprite;
 
     public GroundView(Ground ground) {
         this.ground = ground;
@@ -22,5 +22,9 @@ public class GroundView {
         float width = ground.getSpriteRectangle().width;
         batch.draw(sprite, x, y);
         batch.draw(sprite, x + width, y);
+    }
+
+    public void dispose() {
+        sprite.dispose();
     }
 }

@@ -1,26 +1,22 @@
 package com.dinogame.view;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dinogame.Config;
 import com.dinogame.model.Cactus;
 import com.dinogame.model.CactusSpawner;
-import com.dinogame.model.GameObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CactiView {
 
-    Map<Integer, Integer> spritesById;
-    private CactusSpawner spawner;
+    private final Map<Integer, Integer> spritesById;
+    private final CactusSpawner spawner;
     //список со спрайтами кактусов. Для разнообразия.
-    private ArrayList<Texture> sprites;
-    private ArrayList<CactiView> views;
+    private final ArrayList<Texture> sprites;
     private int firstId;
 
     public CactiView(CactusSpawner spawner) {
@@ -31,7 +27,7 @@ public class CactiView {
         spritesById = new HashMap<>();
     }
 
-    public void drawCactus(SpriteBatch batch, Cactus cactus) {
+    private void drawCactus(SpriteBatch batch, Cactus cactus) {
         int id = cactus.getId();
         if (spritesById.get(id) == null) {
             int randIndex = ThreadLocalRandom.current().nextInt(0, sprites.size());
@@ -44,13 +40,13 @@ public class CactiView {
 
     //отрисовываем все кактусы. Вызывается каждый кадр.
     public void drawAll(SpriteBatch batch) {
-        upddateFirstId();
+        updateFirstId();
         for (Cactus cactus : spawner.getCacti()) {
             drawCactus(batch, cactus);
         }
     }
 
-    private void upddateFirstId() {
+    private void updateFirstId() {
         if (spawner.getCacti().size() > 0) {
             int lastIndex = spawner.getCacti().size() - 1;
             int lastId = spawner.getCacti().get(lastIndex).getId();

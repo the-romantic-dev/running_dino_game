@@ -57,5 +57,7 @@ public class DinoGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         heroView.dispose();
+        groundView.dispose();
+        cactiView.dispose();
     }
 }
